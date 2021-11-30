@@ -1,0 +1,73 @@
+{% extends "../base.html" %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-2 mt-2">
+        <a class="btn btn-warning" href="{% url 'myservicelist' request.user %}"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="col-8"><h4 class="text-center mt-2 mb-3">Servis Detayım</h4>
+    </h3>
+</div>
+</div>
+
+<div class="d-flex justify-content-center">
+  <table class="table">
+    <tr>
+      <td>isim Soyisim:</td>
+      <td>{{service.full_name}}</a></td>
+    
+    </tr>
+    <tr>
+      <td>Servis Adı:</td>
+      <td>{{service.company_name}}</td>
+    </tr>
+    <tr>
+      <td>Marka - Model:</td>
+      <td>{{service.brand}}-{{service.model}}</td>
+    </tr>
+    
+  </table>
+
+</div>
+
+<h5 class="text-danger ml-3">Arızalar</h5>
+<div class="d-flex justify-content-left" style=" border: 1px solid rgb(22, 15, 19);">
+<p class="ml-4">{{service.error|linebreaks}}</p>
+</div>
+<h5 class="text-danger ml-3 mt-3">Yapılan İşlemler</h5>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">İşlem</th>
+      <th scope="col">Adet</th>
+      <th scope="col">Fiyat</th>
+    </tr>
+  </thead>
+  {% for process in processes %}
+
+  <tbody>
+    <tr>
+    
+    <td>{{process.process}}</td>
+    <td>{{process.number}}</td>
+    <td>{{process.total_price}} TL</td>
+  </tr>
+</tbody>
+{% endfor %}
+
+</table>
+<hr>
+<div class="d-flex flex-row-reverse mr-4">
+  Toplam Fiyat:{% if total.total_price %} {{total.total_price}} TL{% endif %}
+</div>
+
+
+
+
+</div>
+
+{% endblock body %}

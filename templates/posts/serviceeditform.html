@@ -1,0 +1,39 @@
+{% extends "../base.html" %}
+{% load crispy_forms_tags %}
+{% block searchform %}
+{% endblock searchform %}
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-2 mt-2">
+        <a class="btn btn-warning" href="{% url 'servicelist' %}"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="col-8"><h4 class="text-center mt-2 mb-3"> Servis Güncelleme Formu</h4>
+    </h3></div>
+</div>
+
+<form method = "post" >
+  {% csrf_token %}
+     
+      <div class="form-row">
+          <div class="form-group col-md-6 mb-0">
+            {{ form.brand|as_crispy_field }}
+          </div>
+          <div class="form-group col-md-6 mb-0">
+            {{ form.model|as_crispy_field }}
+          </div>
+        </div>  
+     
+        <div class="form-row">
+          <div class="form-group col-lg-12 col-md-4 mb-0">
+        {{ form.error|as_crispy_field }} 
+          </div>
+            </div>
+            <div class="d-flex flex-row-reverse mr-4">
+      <button type = "submit" class = "btn btn-primary flex-column-reverse">Güncelle</button>
+    </div>
+      </div>
+  
+  </form>
+  {% endblock body %}

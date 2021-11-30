@@ -1,0 +1,17 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block searchform %}
+
+{% endblock searchform %}
+{% block body %}
+<div class="container-fluid">
+<div class="jumbotron">
+  <p>Kullanıcı Adı: {{user.profile}}</p>
+  <p>İsim Soyisim: {{user.profile.full_name}}</p>
+  <p>Firma Adı: {{user.profile.company_name}}</p>
+  <p>Firma Adı: {{user.profile.phone_number}}</p>
+
+</div>
+</div>
+    
+  {% endblock body %}

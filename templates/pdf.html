@@ -1,0 +1,79 @@
+{% extends 'easy_pdf/base.html' %}
+{% load static %}
+
+{% block navbar %}
+{% endblock navbar %}
+{% block extra_style %}
+   <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<style>
+
+    @page{
+        size: A4 ;margin: 2.5cm 2.5cm 2.5cm 2.5cm;
+
+  }
+  @font-face {
+        font-family: Roboto;
+            src: url("{% static 'font/Roboto.ttf' %}");
+        }
+
+      #content {
+        font-family: Roboto;
+        font-size:1.7rem;
+
+        }
+     
+      #content h2 {
+        text-align: center;
+        color: red;
+        }
+
+       
+        td {
+      line-height: 40px;
+      }   
+  </style>
+  {% endblock extra_style %}
+{% block content %}
+<div id="content">
+<h2 class="text-center">Çınar Kombi Ticaret Servis Sonuç Formu</h2>
+<table class="table">
+      <tr>
+        <td>İsim Soyisim:</td>
+        <td>{{service.full_name}}</td>
+      
+      </tr>
+      <tr>
+            <td>Servis Adı:</td>
+            <td>{{service.company_name}}</td>
+          
+      </tr>   
+      <tr>
+        <td>Marka - Model:</td>
+        <td>{{service.brand}}-{{service.model}}</td>
+      </tr>
+      <tr>
+            <td>Kayıt Tarihi:</td>
+            <td>{{service.date}}</td>
+          
+      </tr>   
+      
+      <tr>
+        <td>Takip Numarası:</td>
+        <td>{{service.id}}</td>
+      </tr>
+      <tr>
+      <td>Yapılan İşlemler:</td>
+      </tr>
+      {% for action in service.action.all %}
+      <tr>
+      <td>{{forloop.counter}}.){{action}}</td>
+      </tr>
+      {% endfor %}
+
+</table>
+  
+
+</div>
+
+{% endblock content %}

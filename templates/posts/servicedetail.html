@@ -1,0 +1,112 @@
+{% extends "../base.html" %}
+{% load crispy_forms_tags %}
+{% block searchform %}
+{% endblock searchform %}
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-2 mt-2">
+        <a class="btn btn-warning" href="{% url 'servicelist' %}"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="col-8"><h4 class="text-center mt-2 mb-3">Servis Detayı</h4>
+    </h3>
+</div>
+</div>
+
+<div class="d-flex justify-content-center">
+  <table class="table">
+    <tr>
+      <td>isim Soyisim:</td>
+      <td>{{service.full_name}}</a></td>
+    
+    </tr>
+    <tr>
+      <td>Servis Adı:</td>
+      <td>{{service.company_name}}</td>
+    </tr>
+    <tr>
+      <td>Marka - Model:</td>
+      <td>{{service.brand}}-{{service.model}}</td>
+    </tr>
+    <tr>
+      <td>Mesaj Gönder</td>
+      <td><a href="https://api.whatsapp.com/send?phone=+9{{service.phone_number|slice:'1'}}-{{service.phone_number|slice:'1:4'}}-{{service.phone_number|slice:'4:7'}}-{{service.phone_number|slice:'7:9'}}-{{service.phone_number|slice:'9:11'}}&text=Sayın {{service.full_name}} Kombiniz Hazırdır. Lütfen Alınız.İşlem ücreti {{total.total_price}} TL dir." target="_blank">{{service.phone_number}}</a></td>
+    </tr>
+    <tr>
+      <td>QR Code</td>
+      <td><a href="{{service.qr_code.url}}" target="_blank">Qr</a>
+      </td>
+    </tr>
+  </table>
+
+</div>
+
+<h5 class="text-danger ml-3">Arızalar</h5>
+<div class="d-flex justify-content-left" style=" border: 1px solid rgb(22, 15, 19);">
+<p class="ml-4">{{service.error|linebreaks}}</p>
+</div>
+<h5 class="text-danger ml-3 mt-3">Yapılan İşlemler</h5>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">İşlem</th>
+      <th scope="col">Adet</th>
+      <th scope="col">Fiyat</th>
+    </tr>
+  </thead>
+  {% for process in processes %}
+
+  <tbody>
+    <tr>
+    
+    <td>{{process.process}}</td>
+    <td>{{process.number}}</td>
+    <td>{{process.total_price}} TL</td>
+    <td><a href="{% url 'actiondelete' service.id process.id %}">Sil</a></td>
+  </tr>
+</tbody>
+{% endfor %}
+
+</table>
+<hr>
+<div class="d-flex flex-row-reverse mr-4">
+  Toplam Fiyat:{% if total.total_price %} {{total.total_price}} TL{% endif %}
+</div>
+  <h5 class="text-danger ml-3">İşlem Ekle</h5>
+  <form class="form-row mt-2" method = "post" action="{% url 'processform' service.id %}">
+    {% csrf_token %}
+  
+    <div class="form-row mb-5 mt-3">
+      <div class="col">
+        <input type="text" name = "process" class="form-control" placeholder="İşlem"></textarea>       
+      </div>
+      <div class="col">
+        <input type="number" name = "price" class="form-control" placeholder="Fiyat"></textarea>       
+      </div>
+      <div class="col">
+        <input type="number" name = "number" class="form-control" placeholder="Adet"></textarea>       
+      </div>
+      <button type = "submit" class = "btn btn-dark">Gönder</button>
+  
+    </div>
+  </form>
+  
+
+  {% for action in actions %}
+
+  <div class="d-flex justify-content-left" style=" border: 1px solid rgb(22, 15, 19);">
+    <p class="ml-4">{{forloop.counter}} - <a href="{% url 'actionadd' service.id action.id %}">{{action.process|linebreaks}}-{{action.number}}-{{action.price}}
+    </a></p>
+  
+    </div>
+  
+    {% endfor %}
+
+
+
+
+</div>
+
+{% endblock body %}

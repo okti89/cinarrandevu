@@ -1,0 +1,78 @@
+{% extends "../base.html" %}
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-2 mt-2">
+        <a class="btn btn-warning" href="{% url 'index' %}"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="col-8"><h4 class="text-center mt-2 mb-3">Tamamlanan Servis Kayıtları</h4>
+    </h3>
+</div>
+</div>
+<div class="col">
+{% for service in services %}
+<div class="d-flex justify-content-center">
+  <table class="table">
+    <tr>
+      <td>isim Soyisim:</td>
+      <td><a href="{% url 'servicedetailfinish' service.id %}">{{service.full_name}}</a></td>
+    
+    </tr>
+    <tr>
+      <td>Marka - Model:</td>
+      <td>{{service.brand}}-{{service.model}}</td>
+    </tr>
+    <tr>
+      <td>Takip Numarası:</td>
+      <td>{{service.id}}</td>
+    </tr>
+  </table>
+
+</div>
+
+<div class="d-flex justify-content-center">
+  <a class="mr-3" href="{% url 'servicecome' %}?service_id={{service.id}}">
+    {% if service.come %}
+     <p class="btn btn-success">Geldi</p>
+    {% else %}
+    <p class=" btn btn-danger">Gelmedi</p> 
+   {% endif %}
+  </a>
+  
+
+<a class="mr-3" href="{% url 'mission' %}?service_id={{service.id}}">
+  {% if service.mission %}
+   <p class="btn btn-success">Yapıldı</p>
+  {% else %}
+  <p class="btn btn-danger">Yapılmadı</p> 
+ {% endif %}
+</a>
+
+<a class="mr-3" href="{% url 'delivered' %}?service_id={{service.id}}">
+  {% if service.delivered %}
+   <p class="btn btn-success text-nowrap">Teslim Edildi</p>
+  {% else %}
+  <p class="btn btn-danger text-nowrap">Teslim Edilmedi</p> 
+ {% endif %}
+</a>
+
+
+</div>
+<div class="d-flex justify-content-center">
+<a href="{% url 'serviceeditform' service.id %}">
+<p class="text-center btn btn-warning mr-4">Düzenle</p>
+</a>
+<a href="{% url 'pdf' service.pk %}">  
+  <p class="btn btn-primary">Sonuç</p>
+</a>
+
+</div>
+
+<hr>
+{% empty %}
+<p>Boş</p>
+{% endfor %}
+</div>
+</div>
+{% endblock body %}
